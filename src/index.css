@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  @apply bg-zinc-900 text-zinc-50 
+}
+
+
+
+.menu-btn {
+  @apply w-10 h-10 grid place-items-center bg-zinc-50/10 rounded-xl ring-inset ring-1 ring-zinc-50/[0.02] 
+  backdrop-blur-2xl hover:bg-zinc-50/15 transition-[transform,shadow];
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #3b3a3a;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #94a3b8; /* Tailwind slate-400 */
+  border-radius: 4px;
+  border: 2px solid #010101;
+}
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #2d2d2d;
+}
