@@ -2,28 +2,28 @@ import React from "react";
 
 const projects = [
   {
-    title: "E-Commerce Website",
+    title: "task_manager application",
     description:
-      "A full-stack MERN e-commerce platform with payment gateway integration, user login, and dynamic cart system.",
-    techStack: ["React", "Node.js", "Express", "MongoDB", "Razorpay", "TailwindCSS"],
-    liveLink: "https://your-ecommerce-demo.vercel.app",
-    githubLink: "https://github.com/your-username/ecommerce-site",
+      "A task management application that allows users to create, update, and delete tasks.",
+    techStack: ["React", "Node.js", "Express", "MongoDB", "TailwindCSS"],
+    liveLink: "https://task-manager-three-henna-62.vercel.app/",
+    githubLink: "https://github.com/prashantbatchu/task_manager",
   },
   {
-    title: "Student Performance Dashboard",
+    title: "wheather-application ",
     description:
-      "Dashboard to track academic performance using charts and tables. Built with React, Node.js, and MongoDB.",
-    techStack: ["React", "Node.js", "MongoDB", "Chart.js", "TailwindCSS"],
-    liveLink: "https://your-dashboard-demo.netlify.app",
-    githubLink: "https://github.com/your-username/student-dashboard",
+      "simple weather application that provides current weather information for any city using OpenWeatherMap API.",
+    techStack: ["HTML","CSS", "JavaScript", "OpenWeatherMap API"],
+    liveLink: "https://cool-eclair-6517b3.netlify.app/",
+    githubLink: "https://github.com/prashantbatchu/Weather_App",
   },
   {
     title: "Portfolio Website",
     description:
       "My personal portfolio built with React and TailwindCSS showcasing my work and resume.",
     techStack: ["React", "TailwindCSS", "Vite", "Material Icons","Javascript"],
-    liveLink: "https://yourportfolio.vercel.app",
-    githubLink: "https://github.com/your-username/portfolio-site",
+    liveLink: "https://portfolio-sigma-ten-47.vercel.app",
+    githubLink: "https://github.com/prashantbatchu/portfolio",
   },
 ];
 
