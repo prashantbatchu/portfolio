@@ -1,7 +1,8 @@
 import React, { useRef, useState,useEffect } from "react";
 import { FaTrophy, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import leetcodeFetcher from "./lc";
-import codechefFetcher from "./cc";
+import leetcodeFetcher from "./api/lc";
+import codechefFetcher from "./api/cc";
+import getCFData from "./api/cf";
 
 const platforms = [
   {
@@ -47,52 +48,7 @@ const platforms = [
 const Achievements = () => {
 
 
-async function getCFData() {
-    try{
-  const userInfoRes = await fetch('/codeforces/api/user.info?handles=prashant81556');
-  const userInfoData = await userInfoRes.json();
-  const user = userInfoData.result[0];
 
-  const submissionsRes = await fetch('/codeforces/api/user.status?handle=prashant81556');
-  const submissionsData = await submissionsRes.json();
-  const submissions = submissionsData.result;
-
-  const totalSubmissions = submissions.length;
-
-  const solvedProblems = new Set();
-  const solvedDays = new Set(); 
-
-  submissions.forEach(sub => {
-    if (sub.verdict === 'OK') {
-      const problemId = `${sub.problem.contestId}-${sub.problem.index}`;
-      solvedProblems.add(problemId);
-    }
-      
-      const date = new Date((sub.creationTimeSeconds ) * 1000);
-      const day = date.toISOString().split('T')[0]; 
-      solvedDays.add(day);
-  });
-
-  return {
-    rating: user.rating,
-    maxRating: user.maxRating,
-    totalSubmissions: totalSubmissions,
-    totalSolved: solvedProblems.size+1,
-    maxDaysStreak: solvedDays.size
-  };
-
-}  catch (error) {
-    console.error("Error fetching Codeforces data:", error);
-    return {
-      rating: 0,
-      maxRating: 0,
-      totalSubmissions: 0,
-      totalSolved: 0,
-      maxDaysStreak: 0
-    };
-  }
-
-}
 
 
   
@@ -130,7 +86,7 @@ const [stats, setStats] = useState([
 useEffect(() => {
   async function updateStats() {
     try {
-      const cfData = await getCFData();
+      const cfData = await getCFData("prashant81556");
       const lcData = await leetcodeFetcher("Prashant0100");
       const ccData = await codechefFetcher("bpk_spect_42");
       console.log(cfData);
