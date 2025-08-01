@@ -1,5 +1,7 @@
 import React, { useRef, useState,useEffect } from "react";
 import { FaTrophy, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import leetcodeFetcher from "./lc";
+import codechefFetcher from "./cc";
 
 const platforms = [
   {
@@ -45,109 +47,13 @@ const platforms = [
 const Achievements = () => {
 
 
-async function getLCData(username) {
-  const statsQuery = `
-    query userProfile($username: String!) {
-      matchedUser(username: $username) {
-        username
-        submitStats {
-          acSubmissionNum {
-            difficulty
-            count
-            submissions
-          }
-        }
-        userCalendar {
-          submissionCalendar
-        }
-      }
-    }
-  `;
-
-  const ratingQuery = `
-    query userContestRankingInfo($username: String!) {
-      userContestRanking(username: $username) {
-        rating
-      }
-      userContestRankingHistory(username: $username) {
-        rating
-      }
-    }
-  `;
-
-  try {
-    const ratingRes = await fetch("https://leetcode.com/graphql", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: ratingQuery,
-        variables: { username },
-      }),
-    });
-
-    const ratingJson = await ratingRes.json();
-    const currentRating = ratingJson.data.userContestRanking?.rating || 0;
-    const history = ratingJson.data.userContestRankingHistory || [];
-    const ratings = history.map(e => e?.rating ?? 0);
-    const maxRating = ratings.length > 0 ? Math.max(...ratings) : 0;
-
-
-
-    // Fetch submission stats and activity
-    const statsRes = await fetch("https://leetcode.com/graphql", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: statsQuery,
-        variables: { username },
-      }),
-    });
-
-    const statsJson = await statsRes.json();
-    const acStats = statsJson.data.matchedUser?.submitStats?.acSubmissionNum || [];
-    const calendarRaw = statsJson.data.matchedUser?.userCalendar?.submissionCalendar || "{}";
-    let calendarData = {};
-    try {
-      calendarData = JSON.parse(calendarRaw);
-    } catch (e) {
-      calendarData = {};
-    }
-
-
-    const totalSolved = acStats.find(d => d.difficulty === "All")?.count || 0;
-    const totalSubmissions = acStats.find(d => d.difficulty === "All")?.submissions || 0;
-
-    const activeDays = Object.keys(calendarData).length;
-
-    return {
-      totalSolved,
-      totalSubmissions,
-      currentRating,
-      maxRating,
-      activeDays,
-    };
-
-  } catch (error) {
-    console.error("Error fetching LeetCode data:", error);
-    return {
-      totalSolved: 0,
-      totalSubmissions: 0,
-      currentRating: 0,
-      maxRating: 0,
-      activeDays: 0,
-    };
-  }
-}
-
-
-
 async function getCFData() {
     try{
-  const userInfoRes = await fetch('https://codeforces.com/api/user.info?handles=prashant81556');
+  const userInfoRes = await fetch('/codeforces/api/user.info?handles=prashant81556');
   const userInfoData = await userInfoRes.json();
   const user = userInfoData.result[0];
 
-  const submissionsRes = await fetch('https://codeforces.com/api/user.status?handle=prashant81556');
+  const submissionsRes = await fetch('/codeforces/api/user.status?handle=prashant81556');
   const submissionsData = await submissionsRes.json();
   const submissions = submissionsData.result;
 
@@ -212,7 +118,7 @@ const [stats, setStats] = useState([
     totalproblems: "7000+",
   },
   {
-    platform: "AtCoder",
+    platform: "CodeChef",
     currentRating: 0,
     maxRating: 0,
     submissionsThisYear: 0,
@@ -221,43 +127,51 @@ const [stats, setStats] = useState([
     totalproblems: "6000+",
   },
 ]);
-
-  useEffect(() => {
-    async function updateStats() {
+useEffect(() => {
+  async function updateStats() {
+    try {
       const cfData = await getCFData();
-      const lcData = await getLCData("Prashant0100");
-      
-      console.log('Codeforces Data:', cfData);
-      console.log('LeetCode Data:', lcData); 
+      const lcData = await leetcodeFetcher("Prashant0100");
+      const ccData = await codechefFetcher("bpk_spect_42");
+      console.log(cfData);
+      console.log(lcData);
+      console.log(ccData);
+
+
+      if (!cfData || !lcData || !ccData) return;
 
       setStats(prevStats => {
         const updatedStats = [...prevStats];
-        updatedStats[0] = {
-          ...updatedStats[0],
+        updatedStats[0] = { ...updatedStats[0], 
           currentRating: lcData.currentRating,
           maxRating: lcData.maxRating,
-          submissionsThisYear: lcData.totalSubmissions,
-          maxDaysStreak: lcData.activeDays,
-          totalSolved: lcData.totalSolved,
+          submissionsThisYear: lcData.totalSubmissions ?? 0,
+          maxDaysStreak: lcData.activeDays ?? 0,
+          totalSolved: lcData.problemsSolved ?? 0,
         };
-
-        updatedStats[1] = {
-          ...updatedStats[1],
-          currentRating: cfData.rating,
-          maxRating: cfData.maxRating,
-          submissionsThisYear: cfData.totalSubmissions,
-          maxDaysStreak: cfData.maxDaysStreak,
-          totalSolved: cfData.totalSolved,
+        updatedStats[1] = { ...updatedStats[1], 
+          currentRating: cfData.rating ?? 0,
+          maxRating: cfData.maxRating ?? 0,
+          submissionsThisYear: cfData.totalSubmissions ?? 0,
+          maxDaysStreak: cfData.maxDaysStreak ?? 0,
+          totalSolved: cfData.totalSolved ?? 0,
         };
-
+        updatedStats[2] = { ...updatedStats[2], 
+          currentRating: ccData.currentRating ?? 0,
+          maxRating: ccData.maxRating ?? 0,
+          submissionsThisYear: ccData.totalSubmissions ?? 0,
+          maxDaysStreak: ccData.activeDays ?? 0,
+          totalSolved: ccData.problemsSolved ?? 0,
+        };
         return updatedStats;
       });
+    } catch (err) {
+      console.error("Failed to update stats:", err);
     }
+  }
 
-    updateStats();
-  }, []);
-
-
+  updateStats();
+}, []);
 
 
 
