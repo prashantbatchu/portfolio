@@ -57,29 +57,29 @@ const Achievements = () => {
 const [stats, setStats] = useState([
   {
     platform: "LeetCode",
-    currentRating: 0,
-    maxRating: 0,
-    submissionsThisYear: 0,
-    maxDaysStreak: 0,
-    totalSolved: 0,
+    currentRating: 1817,
+    maxRating: 1823,
+    submissionsThisYear: 1020,
+    maxDaysStreak: 319,
+    totalSolved: 483,
     totalproblems: "3500+",
   },
   {
     platform: "Codeforces",
-    currentRating: 0,
-    maxRating: 0,
-    submissionsThisYear: 0,
-    maxDaysStreak: 0,
-    totalSolved: 0,
+    currentRating: 1166,
+    maxRating: 1317,
+    submissionsThisYear: 850,
+    maxDaysStreak: 189,
+    totalSolved: 443,
     totalproblems: "7000+",
   },
   {
     platform: "CodeChef",
-    currentRating: 0,
-    maxRating: 0,
-    submissionsThisYear: 0,
-    maxDaysStreak: 0,
-    totalSolved: 0,
+    currentRating: 1684,
+    maxRating: 1684,
+    submissionsThisYear: 1318,
+    maxDaysStreak: 64,
+    totalSolved: 260,
     totalproblems: "6000+",
   },
 ]);
@@ -97,30 +97,30 @@ useEffect(() => {
       console.log(ccData);
 
 
-      if (!cfData || !lcData || !ccData) return;
+      // if (!cfData || !lcData || !ccData) return;
 
       setStats(prevStats => {
         const updatedStats = [...prevStats];
         updatedStats[0] = { ...updatedStats[0], 
           currentRating: lcData.currentRating,
           maxRating: lcData.maxRating,
-          submissionsThisYear: lcData.totalSubmissions ?? 0,
-          maxDaysStreak: lcData.activeDays ?? 0,
-          totalSolved: lcData.problemsSolved ?? 0,
+          submissionsThisYear: lcData.totalSubmissions ,
+          maxDaysStreak: lcData.activeDays ,
+          totalSolved: lcData.problemsSolved ,
         };
         updatedStats[1] = { ...updatedStats[1], 
-          currentRating: cfData.rating ?? 0,
-          maxRating: cfData.maxRating ?? 0,
-          submissionsThisYear: cfData.totalSubmissions ?? 0,
-          maxDaysStreak: cfData.maxDaysStreak ?? 0,
-          totalSolved: cfData.totalSolved ?? 0,
+          currentRating: cfData.rating ,
+          maxRating: cfData.maxRating ,
+          submissionsThisYear: cfData.totalSubmissions ,
+          maxDaysStreak: cfData.maxDaysStreak ,
+          totalSolved: cfData.totalSolved ,
         };
         updatedStats[2] = { ...updatedStats[2], 
-          currentRating: ccData.currentRating ?? 0,
-          maxRating: ccData.maxRating ?? 0,
-          submissionsThisYear: ccData.totalSubmissions ?? 0,
-          maxDaysStreak: ccData.activeDays ?? 0,
-          totalSolved: ccData.problemsSolved ?? 0,
+          currentRating: ccData.currentRating,
+          maxRating: ccData.maxRating ,
+          submissionsThisYear: ccData.totalSubmissions ,
+          maxDaysStreak: ccData.activeDays ,
+          totalSolved: ccData.problemsSolved ,
         };
         return updatedStats;
       });

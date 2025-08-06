@@ -22,7 +22,7 @@ const projects = [
     description:
       "A spotify clone with best user experience and with communication",
     techStack: ["React", "TailwindCSS", "Mongodb", "zustand","socket.io"],
-    liveLink: "https://spotify-clone-full.onrender.com/",
+    liveLink: "https://spotify-clone-full.onrender.com",
     githubLink: "https://github.com/prashantbatchu/spotify-clone-full",
   },
 ];
