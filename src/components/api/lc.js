@@ -5,6 +5,10 @@ const leetcodeFetcher = async (username) => {
     const currentYear = new Date().getFullYear();
     const previousYear = currentYear - 1;
 
+    const API_BASE = import.meta.env.DEV
+      ? '/leetcode' 
+      : 'https://leetcode.com';
+
     // Fetch yearly heatmap data
     const fetchHeatmap = async (year) => {
       const variables = { username, year };
@@ -17,13 +21,11 @@ const leetcodeFetcher = async (username) => {
           }
         }
       `;
-      const res = await axios.post('/leetcode/graphql', {
+      const res = await axios.post(`${API_BASE}/graphql`, {
         query,
         variables
       }, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        headers: { 'Content-Type': 'application/json' }
       });
 
       const rawCalendar = res.data.data.matchedUser.userCalendar.submissionCalendar;
@@ -74,13 +76,11 @@ const leetcodeFetcher = async (username) => {
         }
       }
     `;
-    const userDataRes = await axios.post('/leetcode/graphql', {
+    const userDataRes = await axios.post(`${API_BASE}/graphql`, {
       query: userQuery,
       variables: { username }
     }, {
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
 
     // Extract contest rating data
@@ -106,14 +106,11 @@ const leetcodeFetcher = async (username) => {
     const currentRank = badgeObj ? badgeObj.name : "No Badge";
     const problemsSolved = userDataRes.data.data.matchedUser.submitStatsGlobal.acSubmissionNum[0].count;
 
-    // ✅ New: Total submissions (sum of all difficulties)
     const totalSubmissions = userDataRes.data.data.matchedUser.submitStatsGlobal.totalSubmissionNum
       .reduce((sum, obj) => sum + obj.count, 0);
 
-    // ✅ New: Active days count from heatmap
     const activeDays = fullHeatmap.filter(day => day.count > 0).length;
 
-    // Final data
     const data = {
       currentRating,
       maxRating,

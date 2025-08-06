@@ -3,7 +3,11 @@ import * as cheerio from "cheerio";
 
 const codechefFetcher = async (username) => {
   try {
-    const response = await axios.get(`/api/codechef/${username}`);
+    const API_BASE = import.meta.env.DEV 
+      ? '/api/codechef' 
+      : 'https://www.codechef.com/users';
+
+    const response = await axios.get(`${API_BASE}/${username}`);
     const html = response.data;
     const $ = cheerio.load(html);
 

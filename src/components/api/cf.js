@@ -1,10 +1,15 @@
 const getCFdata = async (username) => {
     try{
-  const userInfoRes = await fetch(`/codeforces/api/user.info?handles=${username}`);
+      const baseURL = import.meta.env.DEV 
+  ? '/codeforces' 
+  : 'https://codeforces.com';
+  // const userInfoRes = await fetch(`/codeforces/api/user.info?handles=${username}`);
+  const userInfoRes = await fetch(`${baseURL}/api/user.info?handles=${username}`);
   const userInfoData = await userInfoRes.json();
   const user = userInfoData.result[0];
 
-  const submissionsRes = await fetch(`/codeforces/api/user.status?handle=${username}`);
+  // const submissionsRes = await fetch(`/codeforces/api/user.status?handle=${username}`);
+  const submissionsRes = await fetch(`${baseURL}/api/user.status?handle=${username}`);
   const submissionsData = await submissionsRes.json();
   const submissions = submissionsData.result;
 
