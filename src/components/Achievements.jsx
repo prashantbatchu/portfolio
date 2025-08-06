@@ -89,6 +89,9 @@ useEffect(() => {
       const cfData = await getCFData("prashant81556");
       const lcData = await leetcodeFetcher("Prashant0100");
       const ccData = await codechefFetcher("bpk_spect_42");
+      // const response = await fetch(`/api/cc?username=bpk_spect_42`);
+      // const ccData = await response.json();
+
       console.log(cfData);
       console.log(lcData);
       console.log(ccData);

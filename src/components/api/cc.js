@@ -6,15 +6,22 @@ const codechefFetcher = async (username) => {
     const API_BASE = import.meta.env.DEV 
       ? '/api/codechef' 
       : 'https://www.codechef.com/users';
-
-    const response = await axios.get(`${API_BASE}/${username}`);
+      const response = await axios.get(`${API_BASE}/${username}`);
+    // const response = await axios.get(`https://www.codechef.com/users/${username}`, {
+    //   headers: {
+    //     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    //     "Accept-Language": "en-US,en;q=0.9"
+    //   },
+    //   timeout: 10000
+    // });
+    
     const html = response.data;
     const $ = cheerio.load(html);
 
     // Scraping rating
     const ratingText = $(".rating-number").text().trim();
     const ratingTextMatch = ratingText.match(/\d+/);
-    const currentRating = ratingTextMatch ? ratingTextMatch[0] : "N/A";
+    const currentRating = ratingTextMatch ? ratingTextMatch[0] : 0;
 
     // Scraping contests
     const contestsText = $(".contest-participated-count").text().trim();
@@ -66,7 +73,7 @@ const codechefFetcher = async (username) => {
           try {
             heatmap = JSON.parse(match[1]);
           } catch (e) {
-            console.error("Failed to parse heatmap data", e.message);
+            console.log("Failed to parse heatmap data", e.message);
           }
         }
       }
@@ -87,7 +94,7 @@ const codechefFetcher = async (username) => {
       activeDays
     };
   } catch (err) {
-    console.error("Error fetching CodeChef rating:", err.message);
+    console.log("Error fetching CodeChef rating:", err.message);
   }
 };
 

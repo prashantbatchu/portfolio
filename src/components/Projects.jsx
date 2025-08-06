@@ -18,12 +18,12 @@ const projects = [
     githubLink: "https://github.com/prashantbatchu/Weather_App",
   },
   {
-    title: "Portfolio Website",
+    title: "Spotify-clone with real-time chat",
     description:
-      "My personal portfolio built with React and TailwindCSS showcasing my work and resume.",
-    techStack: ["React", "TailwindCSS", "Vite", "Material Icons","Javascript"],
-    liveLink: "https://portfolio-sigma-ten-47.vercel.app",
-    githubLink: "https://github.com/prashantbatchu/portfolio",
+      "A spotify clone with best user experience and with communication",
+    techStack: ["React", "TailwindCSS", "Mongodb", "zustand","socket.io"],
+    liveLink: "https://spotify-clone-full.onrender.com/",
+    githubLink: "https://github.com/prashantbatchu/spotify-clone-full",
   },
 ];
 
