@@ -6,8 +6,8 @@ const projects = [
     description:
       "A task management application that allows users to create, update, and delete tasks.",
     techStack: ["React", "Node.js", "Express", "MongoDB", "TailwindCSS"],
-    liveLink: "https://task-manager-three-henna-62.vercel.app/",
-    githubLink: "https://github.com/prashantbatchu/task_manager",
+    liveLink: "https://todowithoutjwt.vercel.app/",
+    githubLink: "https://github.com/prashantbatchu/todowithoutjwt",
   },
   {
     title: "wheather-application ",
